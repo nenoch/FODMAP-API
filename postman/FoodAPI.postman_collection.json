@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "30b46141-5d2d-414a-8318-98b6abc57ed7",
+		"name": "Food API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET food",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "http://localhost:8080/food"
+			},
+			"response": []
+		},
+		{
+			"name": "GET food/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "http://localhost:8080/food/1234"
+			},
+			"response": []
+		},
+		{
+			"name": "POST food",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "apple",
+							"type": "text"
+						},
+						{
+							"key": "safety",
+							"value": "RED",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "fruits",
+							"type": "text"
+						},
+						{
+							"key": "notes",
+							"value": "Have some melon instead.",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/food"
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH food",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "safety",
+							"value": "AMBER",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/food/5be08a0f6a1569173923c704"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE food",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "http://localhost:8080/food/5be08a0f6a1569173923c704"
+			},
+			"response": []
+		}
+	]
+}

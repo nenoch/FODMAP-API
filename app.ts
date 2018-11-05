@@ -1,32 +1,33 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import * as SwaggerExpress from "swagger-express-mw";
+import { Application } from 'express';
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as mongoose from "mongoose";
+import { FoodRoutes } from './routes/food';
 
 class App {
 
-    public app: express.Application;
+    public app: Application;
+    public foodRoutes: FoodRoutes = new FoodRoutes();
+    public mongoUrl: string = `mongodb://localhost/food_api`;
 
     constructor() {
         this.app = express();
         this.config();
+        this.foodRoutes.routes(this.app);
+        this.setup();
     }
 
-    private async config(): Promise<void> {
-        const config = {
-            appRoot: __dirname // required config
-        };
-        
-        SwaggerExpress.create(config, function (err, swaggerExpress) {
-            if (err) { throw err; }
-            // support application/json type post data
-            this.app.use(bodyParser.json());
-            //support application/x-www-form-urlencoded post data
-            this.app.use(bodyParser.urlencoded({ extended: false }));
-            // install middleware
-            swaggerExpress.register(this.app);
-        });
+    private config(): void {
+        // support application/json type post data
+        this.app.use(bodyParser.json());
+        //support application/x-www-form-urlencoded post data
+        this.app.use(bodyParser.urlencoded({ extended: false }));
     }
 
+    private setup(): void {
+        (mongoose as any).Promise = global.Promise;
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+    }
 }
 
 export default new App().app;
