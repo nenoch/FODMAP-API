@@ -1,0 +1,180 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: FODMAP API
+host: localhost:8080
+basePath: /v1/
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /api-docs:
+    x-swagger-pipe: swagger_raw
+  /food:
+    x-swagger-router-controller: food
+    get:
+      tags:
+        - basic
+      description: Get all Food
+      operationId: getFood
+      x-check-data-store: true
+      x-cache-control: no-cache
+      parameters:
+        - name: category
+          in: query
+          description: If this param isn't present it returns all entries in the db.
+          required: false
+          type: string
+          enum:
+            - vegetables
+            - fruits
+            - dairies
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Food'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    post:
+      tags:
+        - basic
+      description: Creates a Food object
+      operationId: postFood
+      x-check-data-store: true
+      parameters:
+        - name: body
+          in: body
+          description: Food object
+          schema:
+            $ref: '#/definitions/Food'
+      responses:
+        '201':
+          description: Success
+          schema:
+            $ref: '#/definitions/Food'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  '/food/{id}':
+    x-swagger-router-controller: food
+    get:
+      tags:
+        - basic
+      description: Get a Food instance
+      operationId: getSingleFood
+      x-check-data-store: true
+      x-cache-control: no-cache
+      parameters:
+        - name: id
+          in: path
+          description: Food ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Food'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    delete:
+      tags:
+        - basic
+      description: Delete a Food instance
+      operationId: deleteFoodById
+      x-check-data-store: true
+      parameters:
+        - name: id
+          in: path
+          description: Food ID
+          required: true
+          type: string
+      responses:
+        '204':
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    patch:
+      tags:
+        - basic
+      description: Update a Food Instance
+      operationId: patchProject
+      parameters:
+        - name: id
+          in: path
+          description: Food ID
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          description: Food object
+          schema:
+            $ref: '#/definitions/Food'
+      responses:
+        '200':
+          description: Update successful
+          schema:
+            $ref: '#/definitions/Food'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+definitions:
+  ErrorResponse:
+    required:
+      - message
+      - status
+    properties:
+      message:
+        type: string
+      status:
+        type: integer
+  Category:
+    type: string
+    enum:
+      - vegetables
+      - fruits
+      - dairies
+  Safety:
+    type: string
+    enum:
+      - red
+      - amber
+      - green
+  Food:
+    type: object
+    properties:
+      _id:
+        type: string
+        description: ID of the Food
+      name:
+        type: string
+        description: Food name
+      dateCreated:
+        type: string
+        format: date-time
+        description: Timestamp when the Food was created
+      dateUpdated:
+        type: string
+        format: date-time
+        description: Timestamp when the Food was last updated
+      category:
+        $ref: '#/definitions/Category'
+      safety:
+        $ref: '#/definitions/Safety'
+      notes:
+        type: string
+        description: Consumption advice
