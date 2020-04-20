@@ -6,7 +6,6 @@ import {
     getFoodById,
     patchFood
 } from '../controllers/food'
-// import * as service from '../services/project';
 
 export class FoodRoutes {
 
